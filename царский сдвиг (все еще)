@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+/*int main()
+{
+    //найти количество пар, сумма которых кратна 14, а произведение 7, при этом числа находятся хотя бы на растоянии 100
+    int n, j, x,ans=0;
+    cin >> n;
+    int line[99];
+    int ost_7[14];
+    int ost[14];
+    //создаем очередь
+    for (int i = 0; i < 99; i++) {
+        cin >> line[i];
+    }
+    //заполняем массивы остатков
+    for (int i = 0; i < 14; i++) {
+        ost_7[i]=0;
+        ost[i]= 0;;
+    }
+    for (int i = 99; i < n; i++) {
+        cin >> x;
+        //считываем количество, проверяя сначала на кратность 7, 
+        //а затем увеличиваем исходя из этого
+        //увеличиваем ответ на количество элементов с необходым остатком и количеством элементов
+        if (x % 7 == 0) {
+            ans += ost[(14 - (x % 14)) % 14];
+        }
+        else {
+            ans += ost_7[(14 - (x % 14)) % 14];
+        }
+        //скидываем старый элемент из очереди в свалку, получая всю информацию о нем
+        j = line[i % 99] % 14;
+        ost[j]++;
+        if (line[i % 99] % 7 == 0)
+            ost_7[j]++;
+        //отправляем в очередь новый элемент
+        line[i % 99] = x;
+
+    }
+}*/
+int main() {
+    int n, j, ans=-10000,x,maxim_ch=-1000000,maxim=-1000000;
+    vector<int> babushka;
+    cin >> n;
+    for (int i = 0; i < 7; i++) {
+        cin >> x;
+        babushka.push_back(x);
+    }
+    for (int i = 7; i < n; i++) {
+        cin >> x;
+        //проверяем на максималность и четность произведения
+        if ((x % 2 == 0) && (x * maxim > ans)) ans = x * maxim;
+        if ((x % 2 != 0) && (x * maxim_ch > ans)) ans = x * maxim_ch;
+        //выкидываем страрый элемент из очереди
+        j = i % 7;
+        if (babushka[j] > maxim) maxim = babushka[j];
+        if ((babushka[j] % 2 == 0) && (babushka[j] > maxim_ch)) maxim_ch = babushka[j];
+        //помещаем х в очередь
+        babushka[j] = x;
+    }
+    cout << ans;
+}
